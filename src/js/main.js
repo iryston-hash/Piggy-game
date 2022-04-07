@@ -10,16 +10,27 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
+let scores, playingProcess, currentScore, activePlayer
+const init = function () {
 //strt conditions
-score0El.textContent = 0;
-score1El.textContent = 0;
-diceEl.classList.add('hidden');
+  playingProcess = true;
+  scores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
 
-let playingProcess = true;
-const scores = [0, 0];
-let currentScore = 0;
-let activePlayer = 0;
-
+  diceEl.classList.add('hidden');
+  //user1
+    score0El.textContent = 0;
+    current0El.textContent = 0;
+    player0El.classList.remove('player--winner}');
+    player0El.classList.add('player--active');
+    //user2
+    score1El.textContent = 0;
+    current1El.textContent = 0;
+    player1El.classList.remove('player--winner}');
+    player1El.classList.remove('player--active');
+};
+init();
 
 const switchPlayer = function () {
     document.getElementById(
@@ -36,7 +47,6 @@ btnRoll.addEventListener('click', function () {
         const dice = Math.trunc(Math.random() * 6) + 1;
         diceEl.classList.remove('hidden');
         diceEl.src = `dice-${dice}.png`;
-
         if (dice !== 1) {
             currentScore += dice;
             document.getElementById(`current--${activePlayer}`).textContent =
@@ -52,9 +62,9 @@ btnHold.addEventListener('click', function () {
         scores[activePlayer] += currentScore;
         document.getElementById(`score--${activePlayer}`).textContent =
             scores[activePlayer];
-        if (scores[activePlayer] >= 15) {
+        if (scores[activePlayer] >= 45) {
             playingProcess = false;
-            diceEl.classList.add('hidden')
+            diceEl.classList.add('hidden');
             document
                 .querySelector(`.player--${activePlayer}`)
                 .classList.add('player--winner');
@@ -66,3 +76,5 @@ btnHold.addEventListener('click', function () {
         }
     }
 });
+
+btnNew.addEventListener('click', init);
